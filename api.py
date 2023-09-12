@@ -12,17 +12,18 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0",port = 3501, debug=True)
 
 """
-from urllib import request
 
 #ejemplo de una API local con puerto 3501 y dentro de un /api
 from flask import Flask
-from yahoo_funcion_data import get_price
+from flask import request
+from yahoo_funcion_data import get_price, set_price
+
 app = Flask(__name__)
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
-
-@app.route("/api/<ticker>")
+"""
+#@app.route("/api/<ticker>")
 
 
 #def api():
@@ -47,6 +48,19 @@ def api_multiple():
 def get_ticker(ticker: object) -> object:
     return get_price(ticker)
 
+"""
+#@app.route("/api/<ticker>", methods=["POST"])
+#def post_ticker(ticker):
+ #   document = get_price(ticker)
+  #  return set_price(document)
+
+
+
+
+@app.route("/api/<ticker>", methods=["GET"])
+def get_ticker(ticker):
+    return get_price(ticker)
+
 
 @app.route("/api/<ticker>", methods=["POST"])
 def post_ticker(ticker):
@@ -63,6 +77,10 @@ def api_multiple():
     for t in tickers:
         result.append(get_price(t))
     return result
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
 
 
 
