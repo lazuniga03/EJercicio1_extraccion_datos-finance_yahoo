@@ -22,7 +22,7 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, World!'
 
-#@app.route("/api/<ticker>")
+@app.route("/api/<ticker>")
 
 
 #def api():
@@ -37,6 +37,27 @@ def hello_world():
 def api_multiple():
     tickers = request.args.get('tickers')
     tickers = tickers.split(',') #split separa x el tipo de caracter entre comillas  contrario es '--'.joing
+
+    result = []
+    for t in tickers:
+        result.append(get_price(t))
+    return result
+
+@app.route("/api/<ticker>", methods=["GET"])
+def get_ticker(ticker: object) -> object:
+    return get_price(ticker)
+
+
+@app.route("/api/<ticker>", methods=["POST"])
+def post_ticker(ticker):
+    document = get_price(ticker)
+    return set_price(document)
+
+
+@app.route("/api/multiple/")
+def api_multiple():
+    tickers = request.args.get('tickers')
+    tickers = tickers.split(',')
 
     result = []
     for t in tickers:

@@ -16,3 +16,7 @@ def get_price(ticker: str, verbose: bool = False) -> dict:
         "precio": precio,
         "currency": currency
     }
+
+def set_price(document: dict):
+    _ = client.get_database('tickers').get_collection('rafa').insert_one(document=document)
+    return 'ok'
